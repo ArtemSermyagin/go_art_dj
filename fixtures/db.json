@@ -1,0 +1,65 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Игрушки",
+      "description": "Детские игрушки"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Продукты",
+      "description": "Овощи и фрукты"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Сигареты",
+      "description": "Табак"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name": "Яблоко",
+      "description": "зеленое",
+      "image": "products/яблоко.webp",
+      "price": 100,
+      "created_at": "2024-02-23T11:59:43.331Z",
+      "updated_at": "2024-02-23T11:59:43.331Z",
+      "category": 3
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name": "Яблоко",
+      "description": "Красное",
+      "image": "products/красное.jpeg",
+      "price": 45,
+      "created_at": "2024-02-23T12:00:40.452Z",
+      "updated_at": "2024-02-23T12:00:40.452Z",
+      "category": 3
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "name": "Помидор",
+      "description": "красный",
+      "image": "products/3F3F3F3F3F3F3F.webp",
+      "price": 300,
+      "created_at": "2024-02-23T12:01:39.435Z",
+      "updated_at": "2024-02-23T12:01:39.435Z",
+      "category": 3
+    }
+  }
+]
