@@ -20,7 +20,6 @@ class Product(models.Model):
         verbose_name="Изображение"
     )
     price = models.IntegerField(verbose_name="Цена за покупку")
-    manufactured_at = models.DateTimeField(auto_now=True, verbose_name="Дата производства продукта")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
     category = models.ForeignKey(
