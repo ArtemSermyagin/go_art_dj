@@ -1,0 +1,54 @@
+{% extends 'catalog/base.html' %}
+{% load path_image %}
+
+{% block title %}Детальная страница{% endblock %}
+
+{% block style %}
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-6">Информация о продукте</h1>
+    </div>
+
+    <table>
+        <tr>
+            <td>Название</td>
+            <td>{{ product.name }}</td>
+        </tr>
+        <tr>
+            <td>Описание</td>
+            <td>{{ product.description }}</td>
+        </tr>
+        <tr>
+            <td>Цена за покупку</td>
+            <td>{{ product.price }}</td>
+        </tr>
+        <tr>
+            <td>Дата создания</td>
+            <td>{{ product.created_at }}</td>
+        </tr>
+        <tr>
+            <td>Дата обновления</td>
+            <td>{{ product.updated_at }}</td>
+        </tr>
+        <tr>
+            <td>Изображение</td>
+            <td>
+                <img style="width: 150px" src="{% mymedia product.image.url %}" alt="">
+            </td>
+        </tr>
+        <tr>
+            <td>Категория</td>
+            <td>{{ product.category.name }}</td>
+        </tr>
+    </table>
+{% endblock %}
