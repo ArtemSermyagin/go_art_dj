@@ -1,12 +1,10 @@
 from django import template
 
-from config.settings import BASE_DOMAIN
-
 register = template.Library()
 
 
 @register.simple_tag()
-def mymedia(data):
+def media_filter(data):
     if data:
-        return f'{BASE_DOMAIN}{data}'
-    return '#'
+        return f"/media/{data}"
+    return "#"
