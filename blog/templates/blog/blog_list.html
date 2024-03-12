@@ -1,0 +1,35 @@
+{% extends 'catalog/base.html' %}
+{% load path_image %}
+
+{% block content %}
+    <div class="row text-center">
+        <a href="{% url 'blog_create' %}" type="button" class="btn btn-lg btn-block btn-outline-primary">Создать
+            блог</a>
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="display-4">{{ title }}</h1>
+            <p class="lead">Все активные блоги.</p>
+        </div>
+        {% for object in object_list %}
+            <div class="col-3 ">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">{{ object.title|slice:":20" }}</h4>
+                    </div>
+                    <div>
+                        <img src="{% media_filter object.preview %}" alt="Product image" class="img-fluid">
+                    </div>
+
+                    <div class="card-body">
+                        <a href="{% url 'blog_detail' object.slug %}" type="button"
+                           class="btn btn-lg btn-block btn-outline-primary">Посмотреть</a>
+                        <hr>
+                        <a href="{% url 'blog_update' object.slug %}" type="button"
+                           class="btn btn-lg btn-block btn-outline-primary">Редактировать</a>
+                        <a href="{% url 'blog_delete' object.slug %}" type="button"
+                           class="btn btn-lg btn-block btn-outline-primary">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
