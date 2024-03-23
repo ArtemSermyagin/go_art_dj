@@ -11,7 +11,7 @@ class ProductListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = Version.objects.filter(is_actual=True).values('name')
+        context['products'] = Version.objects.filter(is_actual=True).values('product')
         return context
 
 
