@@ -6,7 +6,7 @@ class Category(models.Model):
     description = models.TextField(verbose_name="Описание")
 
     def __str__(self):
-        return f"{self.id}"
+        return f"{self.id}-{self.name}"
 
     class Meta:
         db_table = "categories"
@@ -31,9 +31,25 @@ class Product(models.Model):
     )
 
     def __str__(self):
-        return f"{self.id}"
+        return f"{self.id}-{self.name}"
 
     class Meta:
         db_table = "products"
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
+
+
+class Version(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Название")
+    number = models.PositiveIntegerField(default=0, verbose_name="Номер")
+    is_actual = models.BooleanField(default=False, verbose_name="Актуальная")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукт")
+
+    def __str__(self):
+        return f"{self.id} - {self.name}"
+
+    class Meta:
+        db_table = "versions"
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'
+
