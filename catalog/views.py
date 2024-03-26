@@ -1,5 +1,6 @@
 from django.db import IntegrityError
-from django.views.generic import TemplateView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, DetailView, UpdateView
 
 from catalog import forms
 from catalog.models import Product, Category, Version
@@ -11,7 +12,7 @@ class ProductListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = Version.objects.filter(is_actual=True).values('product')
+        context['products'] = Product.objects.filter(versions__is_actual=True)
         return context
 
 
@@ -24,6 +25,12 @@ class ProductDetailView(DetailView):
 class ContactView(TemplateView):
     template_name = 'catalog/contacts.html'
 
+class ProductUpdateView(UpdateView):
+    model = Product
+    pk_url_kwarg = 'product_pk'
+    template_name = 'catalog/product_update.html'
+    form_class = ProductForm
+    success_url = reverse_lazy("home")
 
 def create_product_view(request):
     if request.method == 'POST':

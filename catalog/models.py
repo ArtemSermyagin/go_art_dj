@@ -43,7 +43,12 @@ class Version(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название")
     number = models.PositiveIntegerField(default=0, verbose_name="Номер")
     is_actual = models.BooleanField(default=False, verbose_name="Актуальная")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукт")
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name='versions',
+        verbose_name="Продукт"
+    )
 
     def __str__(self):
         return f"{self.id} - {self.name}"

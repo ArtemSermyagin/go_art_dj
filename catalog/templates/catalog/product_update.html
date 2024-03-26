@@ -1,9 +1,9 @@
 {% extends 'catalog/base.html' %}
 
-{% block title %}Создание продукта{% endblock %}
+{% block title %}Изменение продукта{% endblock %}
 {% block style %}
 <style>
-    .product-create{
+    .product-update{
     width:700px;
     margin:0 auto;
     }
@@ -11,14 +11,14 @@
 </style>
 {% endblock %}
 {% block content %}
-<div class="product-create">
+<div class="product-update">
 
-    <h1>Добавить новый продукт</h1>
+    <h1>Изменить продукт</h1>
 
     <form method="POST" action="">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="btn btn-outline-primary" type="submit">Добавить</button>
+        <button class="btn btn-outline-primary" type="submit">Изменить</button>
     </form>
 </div>
 
