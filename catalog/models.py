@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -33,6 +34,9 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.id}-{self.name}"
 
+    def get_absolute_url(self):
+        return reverse('detail_product', args=(self.pk,))
+
     class Meta:
         db_table = "products"
         verbose_name = 'Продукт'
@@ -57,4 +61,3 @@ class Version(models.Model):
         db_table = "versions"
         verbose_name = 'Версия'
         verbose_name_plural = 'Версии'
-

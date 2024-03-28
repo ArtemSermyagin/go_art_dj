@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import BooleanField
 
-from catalog.models import Product
+from catalog.models import Product, Version
 
 
 class FormStyleMixin:
@@ -13,23 +13,36 @@ class FormStyleMixin:
             else:
                 field.widget.attrs['class'] = 'form-control'
 
+
 class ProductForm(FormStyleMixin, forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'description', 'price', 'image', 'category']
 
-    def clean_name(self):
-        forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-        name = self.cleaned_data.get('name')
+    @staticmethod
+    def validate_bad_words(field):
+        forbidden_words = [
+            'казино', 'криптовалюта', 'крипта', 'биржа',
+            'дешево', 'бесплатно', 'обман', 'полиция', 'радар'
+        ]
         for word in forbidden_words:
-            if word in name.lower():
-                raise forms.ValidationError('Нельзя использовать запрещенные слова в названии продукта.')
+            if word in field.lower():
+                raise forms.ValidationError('Нельзя использовать запрещенные слова.')
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        self.validate_bad_words(name)
         return name
 
     def clean_description(self):
-        forbidden_words = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
         description = self.cleaned_data.get('description')
-        for word in forbidden_words:
-            if word in description.lower():
-                raise forms.ValidationError('Нельзя использовать запрещенные слова в описании продукта.')
+        self.validate_bad_words(description)
         return description
+
+
+class VersionForm(FormStyleMixin, forms.ModelForm):
+    name_version = forms.CharField(label="Название")
+
+    class Meta:
+        model = Version
+        fields = ['name_version', 'number']

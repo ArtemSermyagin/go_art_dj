@@ -24,6 +24,11 @@
                                 <p>{{ product.description|slice:":100" }}</p>
                             </blockquote>
                             <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                            <a href="{{ product.get_absolute_url }}">
+                                <button type="button" class="btn btn-lg btn-block btn-outline-primary">
+                                    Просмотреть
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
