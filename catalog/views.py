@@ -1,6 +1,6 @@
 from django.db import IntegrityError
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, DetailView, UpdateView, CreateView
+from django.views.generic import TemplateView, DetailView, UpdateView, CreateView, ListView, DeleteView
 
 from catalog import forms
 from catalog.models import Product, Category, Version
@@ -26,6 +26,15 @@ class ProductDetailView(DetailView):
 
 class ContactView(TemplateView):
     template_name = 'catalog/contacts.html'
+
+
+# class ProductListView(ListView):
+#     model = Product
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('catalog/index.html')
 
 
 class ProductUpdateView(UpdateView):
