@@ -2,24 +2,25 @@
 
 {% block title %}Создание продукта{% endblock %}
 {% block style %}
-<style>
-    .product-create{
-    width:700px;
-    margin:0 auto;
-    }
+    <style>
+        .product-create {
+            width: 700px;
+            margin: 0 auto;
+        }
 
-</style>
+    </style>
 {% endblock %}
 {% block content %}
-<div class="product-create">
+    <div class="product-create">
 
-    <h1>Добавить новый продукт</h1>
+        <h1>Добавить новый продукт</h1>
 
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-outline-primary" type="submit">Добавить</button>
-    </form>
-</div>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-outline-primary" type="submit">Добавить
+            </button>
+        </form>
+    </div>
 
 {% endblock %}

@@ -27,7 +27,9 @@ class ProductForm(FormStyleMixin, forms.ModelForm):
         ]
         for word in forbidden_words:
             if word in field.lower():
-                raise forms.ValidationError('Нельзя использовать запрещенные слова.')
+                raise forms.ValidationError(
+                    'Нельзя использовать запрещенные слова.'
+                )
 
     def clean_name(self):
         name = self.cleaned_data.get('name')
