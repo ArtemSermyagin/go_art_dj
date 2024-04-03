@@ -1,0 +1,31 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block style %}
+    <style>
+        .login-form {
+            width: 700px;
+            margin: 0 auto;
+        }
+
+        form {
+            margin-bottom: 50px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="login-form">
+        <h1>Авторизация</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-outline-primary" type="submit">Войти</button>
+        </form>
+        <a href="{% url 'restore-password' %}"><small>Восстановить пароль</small></a>
+        <hr>
+        <a href="{% url 'register' %}"><small>Нет аккаунта?</small></a>
+    </div>
+{% endblock %}

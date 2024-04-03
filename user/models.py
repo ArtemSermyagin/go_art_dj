@@ -13,6 +13,7 @@ class User(AbstractUser):
     country = models.CharField(max_length=255, verbose_name='Страна')
     verification_token = models.CharField(
         max_length=255,
+        unique=True,
         verbose_name="Токен верификации"
     )
 
