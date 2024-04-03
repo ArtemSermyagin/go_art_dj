@@ -3,6 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
+    username = None
     email = models.EmailField(verbose_name="Почта", unique=True)
     avatar = models.ImageField(
         upload_to="users/",
@@ -16,10 +17,10 @@ class User(AbstractUser):
     )
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.username
+        return self.email
 
     class Meta:
         db_table = 'users'

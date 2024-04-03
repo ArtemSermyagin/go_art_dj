@@ -21,6 +21,8 @@
         <form action="" method="post">
             {% csrf_token %}
             {{ form.as_p }}
+            {% for fields in form %}
+            {% endfor %}
             <button class="btn btn-outline-primary" type="submit">Зарегестрироваться</button>
         </form>
     </div>
