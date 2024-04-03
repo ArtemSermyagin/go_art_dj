@@ -57,10 +57,12 @@
         </tr>
     </table>
 
-    <a href="{% url 'update_product' product.pk %}">
-        <button type="button" class="btn btn-lg btn-block btn-outline-primary">
-            Редактировать
-        </button>
-    </a>
+    {% if request.user == product.owner %}
+        <a href="{% url 'update_product' product.pk %}">
+            <button type="button" class="btn btn-lg btn-block btn-outline-primary">
+                Редактировать
+            </button>
+        </a>
+    {% endif %}
 
 {% endblock %}

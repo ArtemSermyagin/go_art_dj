@@ -52,13 +52,15 @@
                                     Просмотреть
                                 </button>
                             </a>
-                            <hr>
-                            <a href="{% url 'delete_product' product.pk %}">
-                                <button type="button"
-                                        class="btn btn-lg btn-block btn-danger">
-                                    Удалить
-                                </button>
-                            </a>
+                            {% if request.user == product.owner %}
+                                <hr>
+                                <a href="{% url 'delete_product' product.pk %}">
+                                    <button type="button"
+                                            class="btn btn-lg btn-block btn-danger">
+                                        Удалить
+                                    </button>
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

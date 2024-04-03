@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
+from user.models import User
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255, verbose_name="Наименование")
@@ -29,6 +31,12 @@ class Product(models.Model):
         Category,
         on_delete=models.CASCADE,
         verbose_name="Категория"
+    )
+    owner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='products',
+        verbose_name='Владелец'
     )
 
     def __str__(self):
