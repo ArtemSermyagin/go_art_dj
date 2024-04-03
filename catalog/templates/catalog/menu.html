@@ -4,5 +4,10 @@
         <a class="p-2 btn btn-outline-primary" href="/">Каталог</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'blog_list' %}">Блог</a>
         <a class="p-2 btn btn-outline-primary" href="/contacts/">Контакты</a>
+        {% if request.user.is_auntificated %}
+            <a class="p-2 btn btn-outline-primary" href="">Выйти</a>
+        {% else %}
+            <a class="p-2 btn btn-outline-primary" href="{% url 'register' %}">Войти</a>
+        {% endif %}
     </nav>
 </div>

@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block style %}
+    <style>
+        .register-form {
+            width: 700px;
+            margin: 0 auto;
+        }
+
+        form {
+            margin-bottom: 50px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="register-form">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-outline-primary" type="submit">Зарегестрироваться</button>
+        </form>
+    </div>
+{% endblock %}
