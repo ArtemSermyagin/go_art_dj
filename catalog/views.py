@@ -29,7 +29,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         if form.is_valid():
-            product = form.save()
+            product = form.save(commit=False)
             Version.objects.create(
                 name="Версия 1",
                 number=0,
