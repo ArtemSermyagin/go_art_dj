@@ -25,6 +25,7 @@ class Product(models.Model):
         verbose_name="Изображение"
     )
     price = models.IntegerField(verbose_name="Цена за покупку")
+    is_published = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
     category = models.ForeignKey(
@@ -47,6 +48,12 @@ class Product(models.Model):
 
     class Meta:
         db_table = "products"
+        permissions = [
+            (
+                'set_published',
+                'Can publish posts'
+            )
+        ]
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
 

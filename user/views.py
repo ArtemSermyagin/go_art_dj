@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, PasswordResetView
 from django.core.mail import send_mail
 from django.http import Http404
@@ -11,7 +12,7 @@ from user.forms import RegisterForm, AuthenticationForm
 from user.models import User
 from user.utils import generate_random_string
 
-
+# @login_required(login_url='user/user_login.html')
 class UserRegisterView(CreateView):
     model = User
     form_class = RegisterForm
