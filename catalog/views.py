@@ -30,15 +30,15 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         if form.is_valid():
-            product = form.save()
+            product = form.save(commit=False)
+            product.owner = self.request.user
+            product.save()
             Version.objects.create(
                 name="Версия 1",
                 number=0,
                 is_actual=True,
                 product=product
             )
-            product.owner = self.request.user
-            product.save()
             return super().form_valid(form)
         else:
             return self.render_to_response(self.get_context_data(form=form))
