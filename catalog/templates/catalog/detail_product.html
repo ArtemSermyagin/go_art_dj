@@ -65,4 +65,13 @@
         </a>
     {% endif %}
 
+    {% if set_published %}
+        <form action="{% url 'product_unpublish' product.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-lg btn-block btn-outline-danger">
+                Отменить публикацию
+            </button>
+        </form>
+    {% endif %}
+
 {% endblock %}

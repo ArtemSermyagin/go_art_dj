@@ -1,6 +1,8 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import TemplateView, DetailView, UpdateView, \
     CreateView, ListView, DeleteView
 
@@ -11,7 +13,10 @@ from catalog.forms import ProductForm, VersionForm
 
 class ProductListView(ListView):
     template_name = 'catalog/index.html'
-    queryset = Product.objects.filter(versions__is_actual=True)
+    queryset = Product.objects.filter(
+        versions__is_actual=True,
+        is_published=True
+    )
     context_object_name = 'products'
 
 
@@ -19,6 +24,11 @@ class ProductDetailView(DetailView):
     model = Product
     pk_url_kwarg = 'product_pk'
     template_name = 'catalog/detail_product.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['set_published'] = self.request.user.has_perm('catalog.set_published')
+        return context
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -85,3 +95,13 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
 class ContactView(TemplateView):
     template_name = 'catalog/contacts.html'
+
+
+class ProductUnpublishView(LoginRequiredMixin, View):
+    permission_required = 'catalog.set_published'
+
+    def post(self, request, *args, **kwargs):
+        product = get_object_or_404(Product, pk=kwargs['product_pk'])
+        product.is_published = False
+        product.save()
+        return redirect("home")

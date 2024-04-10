@@ -5,7 +5,7 @@ from catalog.views import (
     ProductDetailView,
     ProductListView,
     ProductUpdateView,
-    ProductCreateView, ProductDeleteView
+    ProductCreateView, ProductDeleteView, ProductUnpublishView
 )
 
 urlpatterns = [
@@ -30,5 +30,10 @@ urlpatterns = [
         'products/<int:product_pk>/delete/',
         ProductDeleteView.as_view(),
         name='delete_product'
+    ),
+    path(
+        'products/<int:product_pk>/unpublish/',
+        ProductUnpublishView.as_view(),
+        name='product_unpublish'
     ),
 ]
