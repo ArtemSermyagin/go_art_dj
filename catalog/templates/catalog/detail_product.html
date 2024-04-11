@@ -9,7 +9,35 @@
             border: 1px solid black;
         }
 
+        .main-content-product {
+            width: 700px;
+            margin: 0 auto;
+        }
 
+        .product_content {
+            border: 1px solid black;
+            border-radius: 20px;
+            padding: 15px;
+        }
+
+        .moderator_content {
+            border: 1px solid black;
+            border-radius: 20px;
+            margin-top: 20px;
+            margin-bottom: 50px;
+            padding: 15px;
+        }
+
+        .btn {
+            margin-top: 10px;
+            font-size: 15px;
+        }
+
+        .new_desc {
+            width: 100%;
+            border-radius: 15px;
+            padding: 10px;
+        }
     </style>
 {% endblock %}
 
@@ -19,59 +47,86 @@
             На главную
         </button>
     </a>
+    <div class="main-content-product">
+        <div class="product_content">
+            <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                <h1 class="display-6">Информация о продукте</h1>
+            </div>
 
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-6">Информация о продукте</h1>
+            <table>
+                <tr>
+                    <td>Название</td>
+                    <td>{{ product.name }}</td>
+                </tr>
+                <tr>
+                    <td>Описание</td>
+                    <td>{{ product.description }}</td>
+                </tr>
+                <tr>
+                    <td>Цена за покупку</td>
+                    <td>{{ product.price }}</td>
+                </tr>
+                <tr>
+                    <td>Дата создания</td>
+                    <td>{{ product.created_at }}</td>
+                </tr>
+                <tr>
+                    <td>Дата обновления</td>
+                    <td>{{ product.updated_at }}</td>
+                </tr>
+                <tr>
+                    <td>Изображение</td>
+                    <td>
+                        <img style="width: 150px" src="{% media_filter product.image %}" alt="">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Категория</td>
+                    <td>{{ product.category.name }}</td>
+                </tr>
+            </table>
+
+            {% if request.user == product.owner %}
+                <a href="{% url 'update_product' product.pk %}">
+                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">
+                        Редактировать
+                    </button>
+                </a>
+            {% endif %}
+        </div>
+
+
+        {% if is_moderator %}
+            <div class="moderator_content">
+                <h4>Раздел модератора</h4>
+                <hr>
+                <form action="{% url 'product_unpublish' product.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-danger">
+                        Отменить публикацию
+                    </button>
+                </form>
+                <hr>
+                <form method="post" action="{% url 'product_change_description' product.pk %}">
+                    {% csrf_token %}
+                    <p>Изменить описание</p>
+                    <textarea class="new_desc" placeholder="Новое описание" name="description" rows="3"></textarea>
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-success">Сохранить</button>
+                </form>
+                <hr>
+                <form method="post" action="{% url 'product_change_category' product.pk %}">
+                    {% csrf_token %}
+                    <p>Изменить категорию</p>
+                    <select class="form-control" name="category">
+                        {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <button type="submit" class="btn btn-lg btn-block btn-outline-success">Сохранить</button>
+                </form>
+            </div>
+        {% endif %}
     </div>
-
-    <table>
-        <tr>
-            <td>Название</td>
-            <td>{{ product.name }}</td>
-        </tr>
-        <tr>
-            <td>Описание</td>
-            <td>{{ product.description }}</td>
-        </tr>
-        <tr>
-            <td>Цена за покупку</td>
-            <td>{{ product.price }}</td>
-        </tr>
-        <tr>
-            <td>Дата создания</td>
-            <td>{{ product.created_at }}</td>
-        </tr>
-        <tr>
-            <td>Дата обновления</td>
-            <td>{{ product.updated_at }}</td>
-        </tr>
-        <tr>
-            <td>Изображение</td>
-            <td>
-                <img style="width: 150px" src="{% media_filter product.image %}" alt="">
-            </td>
-        </tr>
-        <tr>
-            <td>Категория</td>
-            <td>{{ product.category.name }}</td>
-        </tr>
-    </table>
-
-    {% if request.user == product.owner %}
-        <a href="{% url 'update_product' product.pk %}">
-            <button type="button" class="btn btn-lg btn-block btn-outline-primary">
-                Редактировать
-            </button>
-        </a>
-    {% endif %}
-
-    {% if set_published %}
-        <form action="{% url 'product_unpublish' product.pk %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-lg btn-block btn-outline-danger">
-                Отменить публикацию
-            </button>
-        </form>
-    {% endif %}
 
 {% endblock %}

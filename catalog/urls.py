@@ -5,7 +5,7 @@ from catalog.views import (
     ProductDetailView,
     ProductListView,
     ProductUpdateView,
-    ProductCreateView, ProductDeleteView, ProductUnpublishView
+    ProductCreateView, ProductDeleteView, ProductUnpublishView, ProductUpdateDescriptionView, ProductUpdateCategoryView
 )
 
 urlpatterns = [
@@ -36,4 +36,14 @@ urlpatterns = [
         ProductUnpublishView.as_view(),
         name='product_unpublish'
     ),
+    path(
+        'products/<int:product_pk>/update/description/',
+        ProductUpdateDescriptionView.as_view(),
+        name='product_change_description'
+    ),
+    path(
+        'products/<int:product_pk>/update/category/',
+        ProductUpdateCategoryView.as_view(),
+        name='product_change_category'
+    )
 ]

@@ -1,12 +1,11 @@
-from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, DetailView, UpdateView, \
     CreateView, ListView, DeleteView
 
-from catalog.models import Product, Version
+from catalog.models import Product, Version, Category
 
 from catalog.forms import ProductForm, VersionForm
 
@@ -27,7 +26,10 @@ class ProductDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['set_published'] = self.request.user.has_perm('catalog.set_published')
+        context['is_moderator'] = self.request.user.groups.filter(
+            name="Модератор"
+        ).exists()
+        context['categories'] = Category.objects.all()
         return context
 
 
@@ -105,3 +107,32 @@ class ProductUnpublishView(LoginRequiredMixin, View):
         product.is_published = False
         product.save()
         return redirect("home")
+
+
+class ProductModeratorView(LoginRequiredMixin, UserPassesTestMixin, View):
+
+    def test_func(self):
+        return self.request.user.groups.filter(name='Модератор').exists()
+
+
+class ProductUpdateDescriptionView(ProductModeratorView):
+    def post(self, request, *args, **kwargs):
+        description = request.POST.get('description')
+        if not description:
+            return redirect("home")
+        product = get_object_or_404(Product, pk=kwargs['product_pk'])
+        product.description = description
+        product.save()
+        return redirect(product.get_absolute_url())
+
+
+class ProductUpdateCategoryView(ProductModeratorView):
+    def post(self, request, *args, **kwargs):
+        category_pk = request.POST.get('category')
+        if not category_pk:
+            return redirect("home")
+        product = get_object_or_404(Product, pk=kwargs['product_pk'])
+        category = get_object_or_404(Category, pk=category_pk)
+        product.category = category
+        product.save()
+        return redirect(product.get_absolute_url())
