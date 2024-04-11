@@ -3,6 +3,7 @@ import json
 from django.core.management import BaseCommand
 
 from catalog.models import Category, Product
+from catalog.service import get_categories_from_cache
 from config.settings import BASE_DIR
 
 
@@ -24,7 +25,7 @@ class Command(BaseCommand):
             return [item for item in json.load(file) if item["model"] == "catalog.product"]
 
     def handle(self, *args, **options):
-        Category.objects.all().delete()
+        get_categories_from_cache().delete()
         Product.objects.all().delete()
         product_for_create = []
         category_for_create = []

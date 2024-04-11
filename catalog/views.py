@@ -8,6 +8,7 @@ from django.views.generic import TemplateView, DetailView, UpdateView, \
 from catalog.models import Product, Version, Category
 
 from catalog.forms import ProductForm, VersionForm
+from catalog.service import get_categories_from_cache
 
 
 class ProductListView(ListView):
@@ -29,7 +30,7 @@ class ProductDetailView(DetailView):
         context['is_moderator'] = self.request.user.groups.filter(
             name="Модератор"
         ).exists()
-        context['categories'] = Category.objects.all()
+        context['categories'] = get_categories_from_cache()
         return context
 
 
